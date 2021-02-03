@@ -14,6 +14,7 @@ def should_join(params, step, sL, s):
         rng = random.random()
         if rng >= 0.5:
             should_join = True
+
     return {"should_join": should_join}
 
 

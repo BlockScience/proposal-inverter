@@ -5,9 +5,10 @@ def payment_to_unallocated(params, step, prev_states, state, _input):
 
     return key, value
 
-## rendered this uncessary by taking total out of explicit state (still computable as sum)
-# def payment_to_total(params, step, prev_states, state, input):
+# rendered this uncessary by taking total out of explicit state
+# (still computable as sum)
 
+# def payment_to_total(params, step, prev_states, state, input):
 #     value = state['total_funds'] + input['amt']
 #     key = state['total_funds']
 

@@ -1,10 +1,12 @@
 # from .behavior import update_a
 from .model.allocate_payments import (allocated_funds, unallocated_funds,
                                       check_brokers,
-                                      allocate_funds_to_member_brokers)
+                                      allocate_funds_to_member_brokers,
+                                      total_broker_stake)
 from .model.leaves import should_leaves, leaves
 from .model.joins import should_join, joins
 from .model.helper_functions import count_brokers
+from .model.claims import should_make_claims, make_claims
 
 from .mechanism import payment_to_unallocated
 from .behavior import payment_amt
@@ -33,14 +35,18 @@ psubs = [
             # "committed_brokers": committed_brokers,   # B
             # each broker gets a share of allocated funds
             "brokers": allocate_funds_to_member_brokers,
-            # "total_broker_stake": ?,  # S
+            "total_broker_stake": total_broker_stake,  # S
             # "horizon": ?,             # H
         }
     },
     {
         "label": "Claims",
-        "policies": {},
-        "variables": {},
+        "policies": {
+            "should_make_claims": should_make_claims
+        },
+        "variables": {
+            "brokers": make_claims,
+        },
     },
     {
         "label": "Leaves",
