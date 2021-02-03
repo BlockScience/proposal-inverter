@@ -1,6 +1,6 @@
 def payment_to_unallocated(params, step, prev_states, state, _input):
 
-    value = state['unallocated_funds'] + _input['amt']
+    value = state['unallocated_funds'] + _input['payment_amt']
     key = 'unallocated_funds'
 
     return key, value

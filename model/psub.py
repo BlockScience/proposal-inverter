@@ -7,12 +7,12 @@ from .model.joins import should_join, joins
 from .model.helper_functions import count_brokers
 
 from .mechanism import payment_to_unallocated
-from .behavior import payment_rng
+from .behavior import payment_amt
 
 psubs = [
     {
         "label": "Payments",
-        "policies": {'rng':payment_rng},
+        "policies": {'payment_amt':payment_amt},
         "variables": {
                         'unallocated_funds': payment_to_unallocated},
         #                'total_funds': payment_to_total
