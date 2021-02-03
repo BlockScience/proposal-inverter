@@ -4,12 +4,18 @@ from .model.allocate_payments import (allocated_funds, unallocated_funds,
                                       allocate_funds_to_member_brokers)
 from .model.leaves import should_leaves, leaves
 from .model.joins import should_join, joins
+from .model.helper_functions import count_brokers
+
+from .mechanism import payment_to_unallocated
+from .behavior import payment_rng
 
 psubs = [
     {
         "label": "Payments",
-        "policies": {},
-        "variables": {},
+        "policies": {'rng':payment_rng},
+        "variables": {
+                        'unallocated_funds': payment_to_unallocated},
+        #                'total_funds': payment_to_total
         # random variable, flip a coin 0-10
     },
     {
@@ -39,7 +45,8 @@ psubs = [
             "should_leaves": should_leaves
             },
         "variables": {
-            "brokers": leaves
+            "brokers": leaves,
+            "num_member_brokers": count_brokers
             # "num_member_brokers": count_members,
             }
     },
@@ -51,7 +58,8 @@ psubs = [
             "should_join": should_join
             },
         "variables": {
-            "brokers": joins
+            "brokers": joins,
+            "num_member_brokers": count_brokers
             },
     },
 ]
