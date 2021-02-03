@@ -12,9 +12,12 @@ from .behavior import payment_amt
 psubs = [
     {
         "label": "Payments",
-        "policies": {'payment_amt':payment_amt},
+        "policies": {
+            'payment_amt': payment_amt
+        },
         "variables": {
-                        'unallocated_funds': payment_to_unallocated},
+            'unallocated_funds': payment_to_unallocated
+        },
         #                'total_funds': payment_to_total
         # random variable, flip a coin 0-10
     },
