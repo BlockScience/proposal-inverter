@@ -46,6 +46,7 @@ psubs = [
         },
         "variables": {
             "brokers": make_claims,
+            #"unallocated_funds": decrement_claims #need to book keep funds being claimed
         },
     },
     {
@@ -54,7 +55,8 @@ psubs = [
             "should_leaves": should_leaves
             },
         "variables": {
-            "brokers": leaves,
+            "brokers": leaves, #leaves function needs to be extended to include leavers claiming
+            #"unallocated_funds": decrement_claims #need to book keep funds being claimed
             "num_member_brokers": count_brokers
             # "num_member_brokers": count_members,
             }
