@@ -1,6 +1,6 @@
 import random
 
-CLAIM_CONST = 25
+CLAIM_CONST = 10
 
 
 def should_make_claims(params, step, sL, s):
