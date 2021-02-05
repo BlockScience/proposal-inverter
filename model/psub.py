@@ -5,14 +5,16 @@ from .model.allocate_payments import (allocated_funds, unallocated_funds,
                                       total_broker_stake)
 
 from .model.leaves import (should_leaves, leaves, 
-                           decrement_unallocated_funds_due_to_leaves)
+                           decrement_allocated_funds_due_to_leaves,
+                           increment_unallocated_funds_due_to_forfeit_stake,
+                           decrement_total_stake_due_to_leaves)
 
-from .model.joins import should_join, joins
+from .model.joins import should_join, joins, increment_total_stake
 
 from .model.helper_functions import count_brokers
 
 from .model.claims import (should_make_claims, make_claims, 
-                           decrement_unallocated_funds_by_claims)
+                           decrement_allocated_funds_by_claims)
 
 from .mechanism import payment_to_unallocated
 
@@ -53,7 +55,7 @@ psubs = [
         },
         "variables": {
             "brokers": make_claims,
-            "unallocated_funds": decrement_unallocated_funds_by_claims
+            "allocated_funds": decrement_allocated_funds_by_claims
         },
     },
     {
@@ -63,9 +65,10 @@ psubs = [
             },
         "variables": {
             "brokers": leaves,
-            "unallocated_funds": decrement_unallocated_funds_due_to_leaves,
+            "allocated_funds": decrement_allocated_funds_due_to_leaves,
+            "unallocated_funds": increment_unallocated_funds_due_to_forfeit_stake,
+            "total_broker_stake": decrement_total_stake_due_to_leaves,
             "num_member_brokers": count_brokers
-            # "num_member_brokers": count_members,
             }
     },
     {
@@ -77,7 +80,8 @@ psubs = [
             },
         "variables": {
             "brokers": joins,
-            "num_member_brokers": count_brokers
+            "num_member_brokers": count_brokers,
+            "total_broker_stake": increment_total_stake
             },
     },
 ]
