@@ -3,12 +3,19 @@ from .model.allocate_payments import (allocated_funds, unallocated_funds,
                                       check_brokers,
                                       allocate_funds_to_member_brokers,
                                       total_broker_stake)
-from .model.leaves import should_leaves, leaves
+
+from .model.leaves import (should_leaves, leaves, 
+                           decrement_unallocated_funds_due_to_leaves)
+
 from .model.joins import should_join, joins
+
 from .model.helper_functions import count_brokers
-from .model.claims import should_make_claims, make_claims
+
+from .model.claims import (should_make_claims, make_claims, 
+                           decrement_unallocated_funds_by_claims)
 
 from .mechanism import payment_to_unallocated
+
 from .behavior import payment_amt
 
 psubs = [
@@ -46,7 +53,7 @@ psubs = [
         },
         "variables": {
             "brokers": make_claims,
-            #"unallocated_funds": decrement_claims #need to book keep funds being claimed
+            "unallocated_funds": decrement_unallocated_funds_by_claims
         },
     },
     {
@@ -55,8 +62,8 @@ psubs = [
             "should_leaves": should_leaves
             },
         "variables": {
-            "brokers": leaves, #leaves function needs to be extended to include leavers claiming
-            #"unallocated_funds": decrement_claims #need to book keep funds being claimed
+            "brokers": leaves,
+            "unallocated_funds": decrement_unallocated_funds_due_to_leaves,
             "num_member_brokers": count_brokers
             # "num_member_brokers": count_members,
             }
