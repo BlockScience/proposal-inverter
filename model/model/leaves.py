@@ -22,14 +22,15 @@ def should_leaves(params, step, sL, s):
         # broker is allowed to leave if they have stayed in longer than
         # min_epochs or unallocated_funds < min_horizon
 
-        if (s['horizon'] < s['min_horizon'] or
-           b.time_attached > s['min_epochs']):
-            b.allowed_to_leave = True
+        # if (s['horizon'] < s['min_horizon'] or
+        #    b.time_attached > s['min_epochs']):
+        #     b.allowed_to_leave = True
 
         if b.stake > 0:
             p = 1/10
         else:
             p = 1/50
+
         rng = random.random()
         should_leaves[broker_id] = rng < p
         if should_leaves[broker_id]:
@@ -44,9 +45,10 @@ def should_leaves(params, step, sL, s):
 
     return {
         'should_leaves': should_leaves,
-        'funds_to_claim': funds_to_claim, 
-        'removed_stake': removed_stake, 
-        'forfeit_stake':forfeit_stake }
+        'funds_to_claim': funds_to_claim,
+        'removed_stake': removed_stake,
+        'forfeit_stake': forfeit_stake
+        }
 
 
 # mechanism
@@ -67,7 +69,6 @@ def leaves(params, step, sL, s, inputs):
             if broker.leaver_status:
                 broker.holdings += broker.stake
 
-
     key = 'leaves'
     value = s['brokers']
     return key, value
@@ -83,20 +84,22 @@ def decrement_allocated_funds_due_to_leaves(params, step, sL, s, inputs):
     value = s['allocated_funds'] - inputs['funds_to_claim']
     return key, value
 
+
 def decrement_total_stake_due_to_leaves(params, step, sL, s, inputs):
     """ when a broker leaves,
-
+    2) the total_broker_stake is decreased by the removed_stake and the forfeit_stake
     """
 
     key = "total_broker_stake"
     value = s["total_broker_stake"] - inputs['removed_stake'] - inputs['forfeit_stake']
     return key, value
 
+
 def increment_unallocated_funds_due_to_forfeit_stake(params, step, sL, s, inputs):
     """ when a broker leaves,
-
+    3) the unallocated_funds is increased by the forfeit_stake
     """
 
     key = "unallocated_funds"
-    value = s["unallocated_funds"] +  inputs['forfeit_stake']
+    value = s["unallocated_funds"] + inputs['forfeit_stake']
     return key, value

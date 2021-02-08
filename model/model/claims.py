@@ -1,5 +1,5 @@
-import random
 
+import random
 CLAIM_CONST = 10
 
 
