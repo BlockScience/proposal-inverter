@@ -67,6 +67,10 @@ psubs = [
             "allocated_funds": decrement_allocated_funds_by_claims
         },
     },
+    # put a psub here where the "polices layer" is empty 
+    # and the "variables" only updates brokers, 
+    # and specifically first check is the horizon (if the horizon is too short all brokers can leave)
+    # if the horizon is not too short then only brokers who have been members longer than the min period can leave
     {
         'label': 'Leaves',
         'policies': {

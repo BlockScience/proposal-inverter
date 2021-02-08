@@ -9,6 +9,9 @@ class Broker:
         print(self.epoch_counter)
         self.epoch_counter += 1
 
+    def set_allowed_to_leave(self, is_allowed_to_leave):
+        self.set_allowed_to_leave = is_allowed_to_leave
+
     def __init__(self):
         # initialize broker state
         self.id = Broker.broker_counter
@@ -33,6 +36,6 @@ class Broker:
         self.time_attached = 0
 
         # is the broker allowed to leave?
-        # self.allowed_to_leave = False
+        self.allowed_to_leave = False
 
         Broker.broker_counter += 1
