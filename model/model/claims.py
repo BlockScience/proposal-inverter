@@ -18,7 +18,7 @@ def should_make_claims(params, step, sL, s):
             should_make_claims[broker_id] = should_make_claim
             if should_make_claim:
                 funds_to_claim += broker.claimable_funds
-    print(f'{should_make_claims=}')
+    #print(f'{should_make_claims=}')
     return {'should_make_claims': should_make_claims,
             'funds_to_claim': funds_to_claim}
 
