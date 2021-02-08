@@ -11,6 +11,7 @@ simulation_config = configuration.utils.config_sim({
     'M': {
         "required_stake": [5],        # S_min
         "epoch_length": [1],          # in days
+        "min_epochs": [28],           # tau
         "allocation_per_epoch": [10],
         "min_horizon": [7],           # H_min
         "min_brokers": [1],           # n_min

@@ -16,6 +16,14 @@ def should_leaves(params, step, sL, s):
     funds_to_claim = 0
     for broker_id in s['brokers']:
         b = s['brokers'][broker_id]
+
+        # broker is allowed to leave if they have stayed in longer than
+        # min_epochs or unallocated_funds < min_horizon
+
+        if (s['horizon'] < s['min_horizon'] or
+           b.time_attached > s['min_epochs']):
+            b.allowed_to_leave = True
+
         if b.stake > 0:
             p = 1/10
         else:

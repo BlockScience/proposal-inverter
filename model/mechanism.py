@@ -1,15 +1,21 @@
-def payment_to_unallocated(params, step, prev_states, state, _input):
+""" this file is for general state changes and bookkeeping """
 
-    value = state['unallocated_funds'] + _input['payment_amt']
+
+def payment_to_unallocated(params, step, sL, s, inputs):
+
     key = 'unallocated_funds'
+    value = s['unallocated_funds'] + inputs['payment_amt']    
 
     return key, value
 
-# rendered this uncessary by taking total out of explicit state
-# (still computable as sum)
 
-# def payment_to_total(params, step, prev_states, state, input):
-#     value = state['total_funds'] + input['amt']
-#     key = state['total_funds']
+def update_time_attached(params, step, sL, s, inputs):
 
-#     return key, value
+    for broker in s['brokers']:
+        if broker.member:
+            broker.time_attached += 1
+
+    key = 'brokers'
+    value = s['brokers']
+
+    return key, value

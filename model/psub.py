@@ -14,70 +14,79 @@ from .model.helper_functions import count_brokers
 from .model.claims import (should_make_claims, make_claims, 
                            decrement_unallocated_funds_by_claims)
 
-from .mechanism import payment_to_unallocated
+from .mechanism import payment_to_unallocated, update_time_attached
 
 from .behavior import payment_amt
 
 psubs = [
     {
-        "label": "Payments",
-        "policies": {
+        'label': 'Update Time Attached',
+        'policies': {
+
+        },
+        'variables': {
+            'brokers': update_time_attached
+        }
+    }, 
+    {
+        'label': 'Payments',
+        'policies': {
             'payment_amt': payment_amt
         },
-        "variables": {
+        'variables': {
             'unallocated_funds': payment_to_unallocated
         },
         #                'total_funds': payment_to_total
         # random variable, flip a coin 0-10
     },
     {
-        "label": "Allocate Payments",
-        "policies": {
-            "check_brokers": check_brokers
+        'label': 'Allocate Payments',
+        'policies': {
+            'check_brokers': check_brokers
         },
-        "variables": {
-            "allocated_funds": allocated_funds,     # A
-            "unallocated_funds": unallocated_funds,   # R
-            # "total_funds": broker.deploy_agreement,         # F
-            # "committed_brokers": committed_brokers,   # B
+        'variables': {
+            'allocated_funds': allocated_funds,     # A
+            'unallocated_funds': unallocated_funds,   # R
+            # 'total_funds': broker.deploy_agreement,         # F
+            # 'committed_brokers': committed_brokers,   # B
             # each broker gets a share of allocated funds
-            "brokers": allocate_funds_to_member_brokers,
-            "total_broker_stake": total_broker_stake,  # S
-            # "horizon": ?,             # H
+            'brokers': allocate_funds_to_member_brokers,
+            'total_broker_stake': total_broker_stake,  # S
+            # 'horizon': ?,             # H
         }
     },
     {
-        "label": "Claims",
-        "policies": {
-            "should_make_claims": should_make_claims
+        'label': 'Claims',
+        'policies': {
+            'should_make_claims': should_make_claims
         },
-        "variables": {
-            "brokers": make_claims,
-            "unallocated_funds": decrement_unallocated_funds_by_claims
+        'variables': {
+            'brokers': make_claims,
+            'unallocated_funds': decrement_unallocated_funds_by_claims
         },
     },
     {
-        "label": "Leaves",
-        "policies": {
-            "should_leaves": should_leaves
+        'label': 'Leaves',
+        'policies': {
+            'should_leaves': should_leaves
             },
-        "variables": {
-            "brokers": leaves,
-            "unallocated_funds": decrement_unallocated_funds_due_to_leaves,
-            "num_member_brokers": count_brokers
-            # "num_member_brokers": count_members,
+        'variables': {
+            'brokers': leaves,
+            'unallocated_funds': decrement_unallocated_funds_due_to_leaves,
+            'num_member_brokers': count_brokers
+            # 'num_member_brokers': count_members,
             }
     },
     {
         # if there's a vacant spot, flip a coin
         # (heads, they join, tails nobody joins)
-        "label": "Joins",
-        "policies": {
-            "should_join": should_join
+        'label': 'Joins',
+        'policies': {
+            'should_join': should_join
             },
-        "variables": {
-            "brokers": joins,
-            "num_member_brokers": count_brokers
+        'variables': {
+            'brokers': joins,
+            'num_member_brokers': count_brokers
             },
     },
 ]

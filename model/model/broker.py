@@ -18,4 +18,11 @@ class Broker:
 
         # member of the agreement (True/False), in set B
         self.member = True
+
+        # how long the broker has been attached to the stream
+        self.time_attached = 0
+
+        # is the broker allowed to leave?
+        self.allowed_to_leave = False
+
         Broker.broker_counter += 1
