@@ -42,13 +42,13 @@ def make_claims(params, step, sL, s, inputs):
     return key, value
 
 
-def decrement_unallocated_funds_by_claims(params, step, sL, s, inputs):
+def decrement_allocated_funds_by_claims(params, step, sL, s, inputs):
     """ decrease unallocated_funds for each broker making a claim by the
     amount of their claimable_funds
     """
 
-    unallocated_funds = s['unallocated_funds'] - inputs['funds_to_claim']
+    allocated_funds = s['unallocated_funds'] - inputs['funds_to_claim']
 
-    key = 'unallocated_funds'
-    value = unallocated_funds
+    key = 'allocated_funds'
+    value = allocated_funds
     return key, value
