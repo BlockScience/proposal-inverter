@@ -2,16 +2,6 @@ class Broker:
     # autoincrementing id.
     broker_counter = 0
 
-    def leaver_status(self, threshold):
-        return self.epoch_counter <= threshold
-
-    def iterate_epoch_counter(self):
-        print(self.epoch_counter)
-        self.epoch_counter += 1
-
-    def set_allowed_to_leave(self, is_allowed_to_leave):
-        self.set_allowed_to_leave = is_allowed_to_leave
-
     def __init__(self):
         # initialize broker state
         self.id = Broker.broker_counter
@@ -20,16 +10,13 @@ class Broker:
         self.claimable_funds = 0
 
         # amount of money that is put in escrow,
-        # broker loses it if they break the rules
+        # broker loses it if they leave when not allowed
         self.stake = 5
 
         # amount of money this broker has
         self.holdings = 0
 
-        # the number of consequitive epochs the broker has been a member
-        self.epoch_counter = 0
-
-        # member of the agreement (True/False), in set B
+        # member of the agreement (True/False)
         self.member = True
 
         # how long the broker has been attached to the stream

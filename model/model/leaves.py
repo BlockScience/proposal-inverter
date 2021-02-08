@@ -2,8 +2,6 @@ import random
 
 
 # policy
-
-
 def should_leaves(params, step, sL, s):
     # complex, iterate later -- if you would be leaving and not penalized,
     # probability is 1/10.  if there would be a penalty, probability is 1/50
@@ -16,17 +14,8 @@ def should_leaves(params, step, sL, s):
     funds_to_claim = 0
     removed_stake = 0
     forfeit_stake = 0
-    for broker_id in s['brokers']:
-        b = s['brokers'][broker_id]
-
-        # broker is allowed to leave if they have stayed in longer than
-        # min_epochs or unallocated_funds < min_horizon
-
-        # if (s['horizon'] < s['min_horizon'] or
-        #    b.time_attached > s['min_epochs']):
-        #     b.allowed_to_leave = True
-
-        if b.stake > 0:
+    for broker_id, b in s['brokers'].items():
+        if b.allowed_to_leave:
             p = 1/10
         else:
             p = 1/50
@@ -37,11 +26,10 @@ def should_leaves(params, step, sL, s):
             # when a broker leaves, they take their
             # claimable_funds funds with them.
             funds_to_claim += b.claimable_funds
-            if b.leaver_status:
-                forfeit_stake += b.stake
-            else:
+            if b.allowed_to_leave:
                 removed_stake += b.stake
-                b.holdings += b.stake
+            else:
+                forfeit_stake += b.stake
 
     return {
         'should_leaves': should_leaves,
@@ -52,6 +40,29 @@ def should_leaves(params, step, sL, s):
 
 
 # mechanism
+
+# broker is allowed to leave if they have stayed in longer than
+# min_epochs or unallocated_funds < min_horizon
+def allowed_to_leave(params, step, sL, s, inputs):
+    # 1) first check the horizon (if the horizon is too short all brokers can leave)
+    # 2) if the horizon is not too short then only brokers who have been members
+    # longer than the min period can leave
+
+    # calculate the horizon
+    # print(f'')
+    horizon = s['unallocated_funds'] / params['allocation_per_epoch']
+    brokers = s['brokers']
+
+    if len(brokers) > 0:
+        for b in brokers.values():
+            if horizon < params['min_horizon'] or b.time_attached >= params['min_epochs']:
+                b.allowed_to_leave = True
+    
+    key = 'brokers'
+    value = brokers
+    return key, value
+
+
 def leaves(params, step, sL, s, inputs):
     """ When a broker leaves,
     1) member is set to False
@@ -66,10 +77,10 @@ def leaves(params, step, sL, s, inputs):
             broker.stake = 0
             broker.holdings += broker.claimable_funds
             broker.claimable_funds = 0
-            if broker.leaver_status:
+            if broker.allowed_to_leave:
                 broker.holdings += broker.stake
 
-    key = 'leaves'
+    key = 'brokers'
     value = s['brokers']
     return key, value
 
@@ -82,16 +93,6 @@ def decrement_allocated_funds_due_to_leaves(params, step, sL, s, inputs):
 
     key = 'allocated_funds'
     value = s['allocated_funds'] - inputs['funds_to_claim']
-    return key, value
-
-
-def decrement_total_stake_due_to_leaves(params, step, sL, s, inputs):
-    """ when a broker leaves,
-    2) the total_broker_stake is decreased by the removed_stake and the forfeit_stake
-    """
-
-    key = "total_broker_stake"
-    value = s["total_broker_stake"] - inputs['removed_stake'] - inputs['forfeit_stake']
     return key, value
 
 

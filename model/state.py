@@ -6,5 +6,5 @@ genesis_state = {
     "brokers": {},             # dict (key=broker/node id, value=broker object)
     "num_member_brokers": 0,
     "total_broker_stake": 0,   # S
-    #"horizon": 14,             # H
+    # "horizon": 14,             # H
 }
