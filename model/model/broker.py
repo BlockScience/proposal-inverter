@@ -19,7 +19,7 @@ class Broker:
         # member of the agreement (True/False)
         self.member = True
 
-        # how long the broker has been attached to the stream
+        # how long the broker has been attached to the agreement
         self.time_attached = 0
 
         # is the broker allowed to leave?

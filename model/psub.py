@@ -26,7 +26,6 @@ psubs = [
     {
         'label': 'Update Time Attached',
         'policies': {
-
         },
         'variables': {
             'brokers': update_time_attached
@@ -35,13 +34,11 @@ psubs = [
     {
         'label': 'Payments',
         'policies': {
-            'payment_amt': payment_amt
+            'payment_amt': payment_amt  # how much is paid in.
         },
         'variables': {
             'unallocated_funds': payment_to_unallocated
         },
-        #                'total_funds': payment_to_total
-        # random variable, flip a coin 0-10
     },
     {
         'label': 'Allocate Payments',
@@ -49,7 +46,7 @@ psubs = [
             'check_brokers': check_brokers
         },
         'variables': {
-            'allocated_funds': allocated_funds,     # A
+            'allocated_funds': allocated_funds,       # A
             'unallocated_funds': unallocated_funds,   # R
             'brokers': allocate_funds_to_member_brokers,
         }
