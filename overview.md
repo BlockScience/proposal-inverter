@@ -2,8 +2,7 @@
 
 This is a simple spec as a launch point. This document considers a single agreement concerning support for a single stream.
 
-![](https://i.imgur.com/3iiYu9H.png)
-
+![](agreement.png)
 
 ## State
 
