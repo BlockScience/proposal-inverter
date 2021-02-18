@@ -1,6 +1,6 @@
 genesis_state = {
     "allocated_funds": 0,      # A
-    "unallocated_funds": 140,  # R
+    "unallocated_funds": 10,  # R
     # "total_funds": 140,       # F
     # "committed_brokers": {},   # B
     "brokers": {},             # dict (key=broker/node id, value=broker object)

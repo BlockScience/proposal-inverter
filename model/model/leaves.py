@@ -15,10 +15,11 @@ def should_leaves(params, step, sL, s):
     removed_stake = 0
     forfeit_stake = 0
     for broker_id, b in s['brokers'].items():
+        horizon = s["unallocated_funds"]/params["allocation_per_epoch"]
         if b.allowed_to_leave:
-            p = 1/10
+            p = 1/horizon
         else:
-            p = 1/50
+            p = 1/(10*horizon)
 
         rng = random.random()
         should_leaves[broker_id] = rng < p

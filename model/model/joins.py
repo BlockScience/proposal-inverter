@@ -12,7 +12,8 @@ def should_join(params, step, sL, s):
 
     if is_spot_open:
         rng = random.random()
-        if rng >= 0.5:
+        horizon = s["unallocated_funds"]/params["allocation_per_epoch"]
+        if rng >= 1/horizon:
             should_join = True
 
     return {"should_join": should_join}
