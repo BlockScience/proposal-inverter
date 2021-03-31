@@ -1,4 +1,3 @@
-
 from .model.add_delegator import instantiate_delegate, should_instantiate_delegate
 
 from .model.delegator_behaviors import (act,
@@ -8,21 +7,23 @@ from .model.revenue import revenue_amt, store_revenue, distribute_revenue
 
 from .model.private_price import compute_and_store_private_prices
 
-from .model.delegator_behaviors_bookkeeping import (account_global_state_from_delegator_states, 
+from .model.delegator_behaviors_bookkeeping import (compute_cliff_vested_shares,
+                                                    account_global_state_from_delegator_states,
                                                     store_reserve,
                                                     store_supply,
                                                     store_spot_price)
 
 
 psubs = [
-    # {
-    #     'label': 'Update Time Attached',
-    #     'policies': {
-    #     },
-    #     'variables': {
-    #         'delegators': update_time_attached  # helpful for vesting
-    #     }
-    # },
+    {
+        'label': 'Update Vested Shares',
+        'policies': {
+        },
+        'variables': {
+            # 'delegators': compute_half_life_vested_shares
+            'delegators': compute_cliff_vested_shares
+        }
+    },
     {
         'label': 'Revenue Arrival Process',
         'policies': {
@@ -53,7 +54,7 @@ psubs = [
     },
     {
         'label': 'Compute and Store Private Prices',
-        'policies': {            
+        'policies': {
         },
         'variables': {
             'delegators': compute_and_store_private_prices,
@@ -81,4 +82,3 @@ psubs = [
         },
     },
 ]
-

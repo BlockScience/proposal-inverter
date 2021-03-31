@@ -1,7 +1,6 @@
 import pandas
 from cadCAD import configs, engine
 
-from model import config
 
 def run():
     exec_mode = engine.ExecutionMode()
