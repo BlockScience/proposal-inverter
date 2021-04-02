@@ -1,12 +1,21 @@
 
 import scipy.stats as stats
 
+#NOTE: returns the broker that owns the delegation contract
+#TODO: will eventually take some arguments like the delegation contract id
+def get_owner():
+    return 1
 
 def revenue_amt(params, step, prev_state, state):
-    revenue_amt = params["expected_revenue"] * stats.expon.rvs()
+    #revenue_amt = params["expected_revenue"] * stats.expon.rvs()
+    print (state['brokers'].keys())
+    if get_owner() in state['brokers']:
+        revenue_amt = state['brokers'][get_owner()].holdings #or should this be claimable_funds?
+    else:
+        revenue_amt = 0
+    print(revenue_amt)
     # print(f'{revenue_amt=}')
     return {'revenue_amt': revenue_amt}
-
 
 def store_revenue(params, step, sL, s, inputs):
     # print('storing revenue')
@@ -15,7 +24,7 @@ def store_revenue(params, step, sL, s, inputs):
 
     return key, value
 
-
+#TODO: decrease broker holdings when distributed
 def distribute_revenue(params, step, sL, s, inputs):
     revenue = s['period_revenue']
     owners_share = params['owners_share']
