@@ -1,6 +1,6 @@
 # Streamr Agreements
 
-This is a simple spec as a launch point. This document considers a single agreement concerning support for a single stream.
+This is a simple spec as a launch point. This document considers a single agreement concerning support for a single stream. The idea is to define the proposal inverter based on a specific real world use case: streamr.
 
 ![](agreement.png)
 
